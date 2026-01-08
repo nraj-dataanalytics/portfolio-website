@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Nandani Raj</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html">Nandani Raj.</a>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#resume" class="nav-link">Resume</a></li>
+                <li><a href="index.html#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="index.html#work" class="nav-link">Work</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="index.html#certifications" class="nav-link">Certifications</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Hero Banner -->
+    <section style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 120px 0 80px; position: relative; overflow: hidden;">
+        <!-- Subtle overlay pattern -->
+        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.2); backdrop-filter: blur(1px);"></div>
+        
+        <div class="container" style="position: relative; z-index: 1;">
+            <div style="max-width: 900px;">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem; color: #ffffff; font-family: var(--font-serif); font-weight: 600; line-height: 1.2;">Blog</h1>
+                <p style="font-size: 1.25rem; color: rgba(255,255,255,0.9); line-height: 1.6; max-width: 700px;">Insights on business analytics, dashboards, forecasting, and decision-making.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Grid -->
+    <section class="section" style="padding: 5rem 0;">
+        <div class="container">
+            <div class="blog-grid" id="all-blog-posts" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2.5rem;">
+                <!-- All blog posts will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>&copy; <span id="current-year"></span> Nandani Raj. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html#home">Home</a>
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#portfolio">Portfolio</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/in/yourprofile" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/yourprofile" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://twitter.com/yourprofile" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="js/data.js"></script>
+    <script>
+        // Load all blog posts
+        document.addEventListener('DOMContentLoaded', () => {
+            const blogGrid = document.getElementById('all-blog-posts');
+            
+            blogData.forEach((post, index) => {
+                const card = createBlogCard(post);
+                blogGrid.appendChild(card);
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            
+            // Initialize scroll top and footer year
+            const scrollTopBtn = document.getElementById('scroll-top');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('visible');
+                } else {
+                    scrollTopBtn.classList.remove('visible');
+                }
+            });
+            
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Mobile menu
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        });
+        
+        function createBlogCard(post) {
+            const card = document.createElement('div');
+            card.className = 'blog-card';
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.5s ease';
+            
+            const date = new Date(post.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Determine blog post URL
+            const blogUrl = `blog-${post.slug}.html`;
+            
+            card.innerHTML = `
+                <div style="background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;">
+                    <div style="background-image: url('${post.image}'); background-size: cover; background-position: center; height: 220px; position: relative;">
+                        <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);"></div>
+                    </div>
+                    <div style="padding: 1.75rem; flex: 1; display: flex; flex-direction: column;">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 0.875rem; color: #6b7280;">
+                            <span><i class="far fa-calendar" style="margin-right: 0.25rem;"></i> ${date}</span>
+                            <span><i class="far fa-clock" style="margin-right: 0.25rem;"></i> ${post.readingTime}</span>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                            ${post.categories.map(cat => `<span style="display: inline-block; background: #f3f4f6; color: #991b1b; padding: 0.25rem 0.75rem; border-radius: 3px; font-size: 0.75rem; font-weight: 500;">${cat}</span>`).join('')}
+                        </div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #1f2937; font-family: var(--font-serif); font-weight: 600; line-height: 1.3;">${post.title}</h3>
+                        <p style="color: #6b7280; line-height: 1.6; margin-bottom: 1.5rem; flex: 1; font-size: 0.9375rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${post.excerpt}</p>
+                        <a href="${blogUrl}" style="color: #991b1b; font-weight: 600; text-decoration: none; font-size: 0.9375rem; display: inline-flex; align-items: center; transition: all 0.3s ease;">
+                            Read More <i class="fas fa-arrow-right" style="margin-left: 0.5rem; transition: transform 0.3s ease;"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            // Add hover effect
+            const cardElement = card.firstElementChild;
+            card.addEventListener('mouseenter', () => {
+                cardElement.style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)';
+                cardElement.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                cardElement.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+                cardElement.style.transform = 'translateY(0)';
+            });
+            
+            return card;
+        }
+    </script>
+</body>
+</html>
